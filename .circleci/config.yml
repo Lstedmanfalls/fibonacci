@@ -64,6 +64,15 @@ workflows:
           filters:
             branches:
               only: /.*-dev.*/
+      - aws-ecs/deploy_service_update:
+          auth:
+            - aws-cli/setup:
+                role_arn: $role_arn
+          cluster: fibonacci-development
+          container_image_name_updates: container=fibonacci-development,tag=${CIRCLE_SHA1}
+          family: fibonacci-development
+          requires:
+            - aws-ecr/build-and-push-image
 
   backend:
     jobs:
@@ -94,6 +103,15 @@ workflows:
               only: main
           requires:
             - test
+      - aws-ecs/deploy_service_update:
+          auth:
+            - aws-cli/setup:
+                role_arn: $role_arn
+          cluster: fibonacci-staging
+          container_image_name_updates: container=fibonacci-staging,tag=${CIRCLE_SHA1}
+          family: fibonacci-staging
+          requires:
+            - aws-ecr/build-and-push-image
 
       # deploy to production
       - aws-ecr/build_and_push_image:
@@ -117,3 +135,12 @@ workflows:
               only: main
           requires:
             - deploy-staging
+      - aws-ecs/deploy_service_update:
+          auth:
+            - aws-cli/setup:
+                role_arn: $role_arn
+          cluster: fibonacci-production
+          container_image_name_updates: container=fibonacci-production,tag=${CIRCLE_SHA1}
+          family: fibonacci-production
+          requires:
+            - aws-ecr/build-and-push-image
