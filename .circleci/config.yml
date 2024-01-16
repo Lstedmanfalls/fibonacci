@@ -67,6 +67,7 @@ workflows:
               only: /.*-dev.*/
       - aws-ecs/deploy_service_update:
           name: deploy-dev-ecs
+          context: aws
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
@@ -106,6 +107,8 @@ workflows:
             - test
       - aws-ecs/deploy_service_update:
           name: deploy-staging-ecs
+          context: aws
+
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
@@ -137,6 +140,7 @@ workflows:
           requires:
             - deploy-staging-ecs
       - aws-ecs/deploy_service_update:
+          context: aws
           name: deploy-production-ecs
           auth:
             - aws-cli/setup:
