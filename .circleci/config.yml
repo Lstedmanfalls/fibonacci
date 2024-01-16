@@ -106,6 +106,7 @@ workflows:
             - test
       - aws-ecs/deploy_service_update:
           name: deploy-staging-ecs
+          account_id: $account_id
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
@@ -139,6 +140,7 @@ workflows:
             - deploy-staging-ecs
       - aws-ecs/deploy_service_update:
           name: deploy-production-ecs
+          account_id: $account_id
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
