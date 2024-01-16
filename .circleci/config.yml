@@ -1,6 +1,8 @@
 version: 2.1
 orbs:
   python: circleci/python@2.1.1
+  aws-ecr: circleci/aws-ecr@9.0.2
+  aws-ecs: circleci/aws-ecs@4.0.0
 
 jobs:
   test:
@@ -16,18 +18,37 @@ jobs:
           command: poetry run pytest --junitxml=junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
       - store_test_results:
           path: junit.xml
-  build-and-push:
-    executor: python/default
+  
+  terraform-plan-dev:
+    executor: 
+      name: python/default
+      tag: '3.12'
     steps:
       - checkout
+      - run:
+          name: Merge code to terraform branch
+          command: |
+            git config user.email "terraform-dev.com"
+            git config user.name "terraform dev"
+            git checkout -b terraform-dev
+            git push
 
 workflows:
+
+  deploy-dev:
+    jobs:
+      - terraform-plan-dev:
+          filters:
+            branches:
+              only: .*-dev.*
 
   backend:
     jobs:
       - test
-      - build-and-push:
-          filters:
-            branches:
-              only:
-                - main
+      # - aws-ecr/build-and-push-image:
+      #     repo: "${AWS_RESOURCE_NAME_PREFIX}"
+      #     tag: "${CIRCLE_SHA1}"
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
