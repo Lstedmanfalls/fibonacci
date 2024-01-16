@@ -58,6 +58,7 @@ workflows:
           region: us-east-2
           repo: fibonacci-development
           tag: $CIRCLE_SHA1
+          setup_remote_docker: true
           filters:
             branches:
               only: /.*-dev.*/
@@ -81,6 +82,7 @@ workflows:
           region: us-east-2
           repo: fibonacci-production
           tag: $CIRCLE_SHA1
+          setup_remote_docker: true
           filters:
             branches:
               only: main
