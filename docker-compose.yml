@@ -1,0 +1,18 @@
+version: "3.5"
+networks:
+  gametime_takehome:
+    driver: bridge
+services:
+  fibonacci:
+    container_name: api
+    ports:
+      - "8000:8000"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: poetry run uvicorn fibonacci.main:app --host 0.0.0.0 --port 8000 --reload
+    restart: always
+    volumes:
+      - ./:/app
+    networks:
+      - gametime_takehome
