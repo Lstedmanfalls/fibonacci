@@ -1,0 +1,32 @@
+version: 2.1
+
+executors:
+  cimg-python:
+    environment:
+      IMAGE_NAME: "gametime-takehome"
+    docker:
+      - image: cimg/python:3.12.1
+
+jobs:
+  test:
+    executor: cimg-python
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: poetry
+      - run:
+          name: Run tests
+          command: poetry run pytest --junitxml=junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
+      - store_test_results:
+          path: junit.xml
+
+workflows:
+
+  backend:
+    jobs:
+      - test
+      - build-and-push:
+          filters:
+            branches:
+              only:
+                - main
