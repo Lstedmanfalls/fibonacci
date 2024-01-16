@@ -62,7 +62,6 @@ workflows:
           repo: fibonacci-development
           tag: $CIRCLE_SHA1
           setup_remote_docker: true
-          skip-when-tags-exist: true
           filters:
             branches:
               only: /.*-dev.*/
@@ -70,7 +69,6 @@ workflows:
           name: deploy-dev-ecs
           context: aws
           region: us-east-2
-          skip_task_definition_registration: true
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
@@ -103,7 +101,6 @@ workflows:
           repo: fibonacci-staging
           tag: $CIRCLE_SHA1
           setup_remote_docker: true
-          skip-when-tags-exist: true
           filters:
             branches:
               only: main
@@ -138,7 +135,6 @@ workflows:
           repo: fibonacci-production
           tag: $CIRCLE_SHA1
           setup_remote_docker: true
-          skip-when-tags-exist: true
           filters:
             branches:
               only: main
