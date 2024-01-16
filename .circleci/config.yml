@@ -31,7 +31,7 @@ jobs:
           command: |
             git config user.email "terraform-dev.com"
             git config user.name "terraform dev"
-            git checkout -b terraform-dev
+            git checkout -b terraform-dev || true
             git push
 
 workflows:
@@ -46,6 +46,7 @@ workflows:
             branches:
               only: /.*-dev.*/
       - aws-ecr/build_and_push_image:
+          account_id: $account_id
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
@@ -68,6 +69,7 @@ workflows:
             branches:
               only: main
       - aws-ecr/build_and_push_image:
+          account_id: $account_id
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
