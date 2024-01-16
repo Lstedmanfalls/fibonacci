@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   python: circleci/python@2.1.1
+  aws-cli: circleci/aws-cli@4.1.2
   aws-ecr: circleci/aws-ecr@9.0.2
   aws-ecs: circleci/aws-ecs@4.0.0
 
@@ -34,21 +35,50 @@ jobs:
             git push
 
 workflows:
-
   deploy-dev:
     jobs:
+      - test:
+          filters:
+            branches:
+              only: .*-dev.*
       - terraform-plan-dev:
+          filters:
+            branches:
+              only: .*-dev.*
+      - aws-ecr/build_and_push_image:
+          auth:
+            - aws-cli/setup:
+                role_arn: $role_arn
+          context: aws
+          executor: 
+            name: python/default
+            tag: '3.12'
+          no_output_timeout: 2m
+          region: us-east-2
+          repo: fibonacci-development
+          tag: $CIRCLE_SHA1
           filters:
             branches:
               only: .*-dev.*
 
   backend:
     jobs:
-      - test
-      # - aws-ecr/build-and-push-image:
-      #     repo: "${AWS_RESOURCE_NAME_PREFIX}"
-      #     tag: "${CIRCLE_SHA1}"
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
+      - test:
+          filters:
+            branches:
+              only: main
+      - aws-ecr/build_and_push_image:
+          auth:
+            - aws-cli/setup:
+                role_arn: $role_arn
+          context: aws
+          executor: 
+            name: python/default
+            tag: '3.12'
+          no_output_timeout: 2m
+          region: us-east-2
+          repo: fibonacci-production
+          tag: $CIRCLE_SHA1
+          filters:
+            branches:
+              only: main
