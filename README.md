@@ -15,6 +15,8 @@
 5) To deactivate the environment
 - `deactivate`
 
+**Note, you must have the venv activated when you commit in order for the pre-commit tests to run
+
 # To manually run tests:
 - `poetry run pytest`
 
