@@ -62,6 +62,7 @@ workflows:
           repo: fibonacci-development
           tag: $CIRCLE_SHA1
           setup_remote_docker: true
+          skip-when-tags-exist: true
           filters:
             branches:
               only: /.*-dev.*/
@@ -102,6 +103,7 @@ workflows:
           repo: fibonacci-staging
           tag: $CIRCLE_SHA1
           setup_remote_docker: true
+          skip-when-tags-exist: true
           filters:
             branches:
               only: main
@@ -136,6 +138,7 @@ workflows:
           repo: fibonacci-production
           tag: $CIRCLE_SHA1
           setup_remote_docker: true
+          skip-when-tags-exist: true
           filters:
             branches:
               only: main
