@@ -47,6 +47,7 @@ workflows:
             branches:
               only: /.*-dev.*/
       - aws-ecr/build_and_push_image:
+          name: build-dev
           account_id: $account_id
           auth:
             - aws-cli/setup:
@@ -65,6 +66,7 @@ workflows:
             branches:
               only: /.*-dev.*/
       - aws-ecs/deploy_service_update:
+          name: deploy-dev-ecs
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
@@ -72,18 +74,14 @@ workflows:
           container_image_name_updates: container=fibonacci-development,tag=${CIRCLE_SHA1}
           family: fibonacci-development
           requires:
-            - aws-ecr/build-and-push-image
+            - build-dev
 
   backend:
     jobs:
-      - test:
-          filters:
-            branches:
-              only: main
-            
+      - test            
       # deploy to staging
       - aws-ecr/build_and_push_image:
-          name: deploy-staging
+          name: build-staging
           account_id: $account_id
           auth:
             - aws-cli/setup:
@@ -104,6 +102,7 @@ workflows:
           requires:
             - test
       - aws-ecs/deploy_service_update:
+          name: deploy-staging-ecs
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
@@ -111,11 +110,11 @@ workflows:
           container_image_name_updates: container=fibonacci-staging,tag=${CIRCLE_SHA1}
           family: fibonacci-staging
           requires:
-            - aws-ecr/build-and-push-image
+            - build-staging
 
       # deploy to production
       - aws-ecr/build_and_push_image:
-          name: deploy-production
+          name: build-production
           account_id: $account_id
           auth:
             - aws-cli/setup:
@@ -134,8 +133,9 @@ workflows:
             branches:
               only: main
           requires:
-            - deploy-staging
+            - deploy-staging-ecs
       - aws-ecs/deploy_service_update:
+          name: deploy-production-ecs
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
@@ -143,4 +143,4 @@ workflows:
           container_image_name_updates: container=fibonacci-production,tag=${CIRCLE_SHA1}
           family: fibonacci-production
           requires:
-            - aws-ecr/build-and-push-image
+            - build-production
