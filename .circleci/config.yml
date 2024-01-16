@@ -69,6 +69,7 @@ workflows:
           name: deploy-dev-ecs
           context: aws
           region: us-east-2
+          skip_task_definition_registration: true
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
