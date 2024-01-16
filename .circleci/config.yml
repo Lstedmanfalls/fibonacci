@@ -97,6 +97,7 @@ workflows:
 
       # deploy to production
       - aws-ecr/build_and_push_image:
+          name: deploy-production
           account_id: $account_id
           auth:
             - aws-cli/setup:
