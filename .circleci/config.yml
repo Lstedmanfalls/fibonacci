@@ -68,6 +68,7 @@ workflows:
       - aws-ecs/deploy_service_update:
           name: deploy-dev-ecs
           context: aws
+          region: us-east-2
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
@@ -108,7 +109,7 @@ workflows:
       - aws-ecs/deploy_service_update:
           name: deploy-staging-ecs
           context: aws
-
+          region: us-east-2
           auth:
             - aws-cli/setup:
                 role_arn: $role_arn
@@ -141,6 +142,7 @@ workflows:
             - deploy-staging-ecs
       - aws-ecs/deploy_service_update:
           context: aws
+          region: us-east-2
           name: deploy-production-ecs
           auth:
             - aws-cli/setup:
