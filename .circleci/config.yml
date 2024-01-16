@@ -40,11 +40,11 @@ workflows:
       - test:
           filters:
             branches:
-              only: .*-dev.*
+              only: /.*-dev.*/
       - terraform-plan-dev:
           filters:
             branches:
-              only: .*-dev.*
+              only: /.*-dev.*/
       - aws-ecr/build_and_push_image:
           auth:
             - aws-cli/setup:
@@ -59,7 +59,7 @@ workflows:
           tag: $CIRCLE_SHA1
           filters:
             branches:
-              only: .*-dev.*
+              only: /.*-dev.*/
 
   backend:
     jobs:
