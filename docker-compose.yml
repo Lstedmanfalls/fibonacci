@@ -1,6 +1,6 @@
 version: "3.5"
 networks:
-  gametime_takehome:
+  fibonacci:
     driver: bridge
 services:
   fibonacci:
@@ -15,4 +15,4 @@ services:
     volumes:
       - ./:/app
     networks:
-      - gametime_takehome
+      - fibonacci
