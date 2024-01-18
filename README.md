@@ -20,5 +20,8 @@
 # To manually run tests:
 - `poetry run pytest`
 
+# To run test coverage report:
+- `poetry run pytest --cov`
+
 # To manually run formatter:
 - `poetry run black .`
