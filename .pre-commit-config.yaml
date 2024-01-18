@@ -12,3 +12,15 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+
+- repo: local
+  hooks:
+    - id: pylint
+      name: pylint
+      entry: pylint
+      language: system
+      types: [python]
+      args:
+        [
+          "--rcfile=pyproject.toml",
+        ]

@@ -1,5 +1,5 @@
-import fibonacci
 import pytest
+import fibonacci
 
 
 def test_get_fibonacci_series():

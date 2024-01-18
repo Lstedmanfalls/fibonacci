@@ -1,5 +1,5 @@
 def get_fibonacci_series(num: int):
-    if type(num) != int:
+    if not isinstance(num, int):
         raise TypeError("Input must be an integer")
     if num <= 0:
         raise ValueError("Number must be greater than zero")
