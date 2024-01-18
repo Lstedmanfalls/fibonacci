@@ -6,8 +6,8 @@ repos:
 
 -   repo: local
     hooks:
-    -   id: test
-        name: test
+    -   id: pytest
+        name: pytest
         entry: pytest
         language: system
         pass_filenames: false
