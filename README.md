@@ -40,3 +40,5 @@
 `poetry remove <package>`
 - To remove a dev dependency
 `poetry remove <package> --group dev`
+- To sync poetry lock
+`poetry lock`
