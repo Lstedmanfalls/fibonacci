@@ -1,3 +1,5 @@
+## Local Development
+
 ### To run locally:
 1) Make sure you have pipx and poetry installed
 - `pip install pipx`
@@ -28,3 +30,13 @@
 
 ### To manually run formatter on all files:
 - `poetry run black .`
+
+## Poetry-managed packages
+- To add a new dependency
+`poetry add <package>`
+- To add a new dev dependency
+`poetry add <package> --group dev`
+- To remove a dependency
+`poetry remove <package>`
+- To remove a dev dependency
+`poetry remove <package> --group dev`
