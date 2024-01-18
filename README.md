@@ -1,4 +1,4 @@
-# To run locally:
+### To run locally:
 1) Make sure you have pipx and poetry installed
 - `pip install pipx`
 - `pipx install poetry`
@@ -17,14 +17,14 @@
 
 **Note, you must have the venv activated when you commit in order for the pre-commit tests to run
 
-# To manually run all tests:
+### To manually run all tests:
 - `poetry run pytest`
 
-# To run test coverage report:
+### To run test coverage report:
 - `poetry run pytest --cov`
 
-# To manually run linter on all files:
+### To manually run linter on all files:
 `poetry run pylint $(git ls-files '*.py')`
 
-# To manually run formatter on all files:
+### To manually run formatter on all files:
 - `poetry run black .`
